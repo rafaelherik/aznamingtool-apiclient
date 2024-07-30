@@ -1,11 +1,12 @@
 package aznamingtool
 
 import (
-	"aznamingtool/pkg/aznamingtool/models"
 	"bytes"
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/rafaelherik/aznamingtool-apiclient/pkg/aznamingtool/models"
 )
 
 type ResourceNamingService struct {
