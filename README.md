@@ -1,5 +1,7 @@
 # Azure Naming tool API client using go
 
+[![Build Status](https://github.com/rafaelherik/aznamingtool-apiclient/actions/workflows/build.yaml/badge.svg)](https://github.com/rafaelherik/aznamingtool-apiclient/actions/workflows/build.yaml)
+
 This repository provides a simplified API client in Go for interacting with the AzureNamingTool API. The AzureNamingTool Go Client enables developers to easily integrate Azure naming services into their Go applications with minimal setup and effort.
 
 ### Features
