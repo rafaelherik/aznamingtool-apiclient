@@ -1,0 +1,30 @@
+name: Go CI
+
+on:
+  push:
+    branches:
+      - main
+      - 'feature/*'  # Add any other branches you want to include
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Go
+      uses: actions/setup-go@v3
+      with:
+        go-version: '1.22.4'
+
+    - name: Get dependencies
+      run: go mod tidy
+
+    - name: Build
+      run: go build -v ./...
