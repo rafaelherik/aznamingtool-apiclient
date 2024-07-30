@@ -63,7 +63,7 @@ func (s *ResourceNamingService) RequestNameWithComponents(request models.Resourc
 		return nil, fmt.Errorf("endpoint not found for Resource Name With Components Request")
 	}
 
-	req, err := http.NewRequest("GET", endpoint, nil)
+	req, err := http.NewRequest("POST", endpoint, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -96,7 +96,7 @@ func (s *ResourceNamingService) ValidatetName(request models.ValidateNameRequest
 		return nil, fmt.Errorf("endpoint not found for Validate Name Request")
 	}
 
-	req, err := http.NewRequest("GET", endpoint, nil)
+	req, err := http.NewRequest("POST", endpoint, nil)
 	if err != nil {
 		return nil, err
 	}
