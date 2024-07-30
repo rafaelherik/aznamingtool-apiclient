@@ -1,7 +1,7 @@
-package client
+package aznamingtool
 
 import (
-	"azure-naming-api-client/models"
+	"aznamingtool/pkg/aznamingtool/models"
 	"bytes"
 	"encoding/json"
 	"fmt"
