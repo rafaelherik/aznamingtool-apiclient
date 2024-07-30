@@ -1,22 +1,17 @@
 package tests
 
 import (
-	"azure-naming-api-client/client"
-	"azure-naming-api-client/config"
-	"azure-naming-api-client/models"
 	"fmt"
-	"os"
 	"testing"
+
+	"github.com/rafaelherik/aznamingtool-apiclient/pkg/aznamingtool"
+	"github.com/rafaelherik/aznamingtool-apiclient/pkg/aznamingtool/models"
 )
 
 func TestResourceNamingService_RequestName(t *testing.T) {
 
-	// ARRANGE
-	os.Setenv("AZ_NAMING_TOOL_API_BASE_URL", "http://localhost:8081")
-	os.Setenv("AZ_NAMING_TOOL_API_KEY", "603a01da-b170-4a0f-8d55-f809332faacd")
-	cfg := config.LoadConfig(nil, nil)
-	restClient := client.NewAPIClient(cfg.BaseURL, cfg.APIKey)
-	service := client.NewResourceNamingService(restClient)
+	restClient := aznamingtool.NewAPIClient("http://localhost:8081", "603a01da-b170-4a0f-8d55-f809332faacd")
+	service := aznamingtool.NewResourceNamingService(restClient)
 
 	// ACT
 	t.Run("RequestName Success", func(t *testing.T) {
