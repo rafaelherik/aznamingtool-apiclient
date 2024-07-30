@@ -31,7 +31,7 @@
 // 		}
 
 // 		// ASSERT
-// 		if response.Success != true {
+// 		if response != true {
 // 			t.Errorf("The response was not successful")
 // 		}
 // 	})
