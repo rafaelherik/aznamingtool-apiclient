@@ -3,7 +3,7 @@ package aznamingtool
 import (
 	"fmt"
 
-	"github.com/rafaelherik/aznamingtool-apiclient/pkg/aznamingtool/models"
+	"github.com/rafaelherik/aznamingtool-apiclient/aznamingtool/models"
 )
 
 type ResourceNamingService struct {
