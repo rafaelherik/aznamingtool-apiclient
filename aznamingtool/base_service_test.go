@@ -1,4 +1,4 @@
-package tests_test
+package aznamingtool
 
 import (
 	"encoding/json"
@@ -6,7 +6,6 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/rafaelherik/aznamingtool-apiclient/aznamingtool"
 	"github.com/rafaelherik/aznamingtool-apiclient/aznamingtool/models"
 	"github.com/stretchr/testify/assert"
 )
@@ -21,8 +20,8 @@ func TestDoGet(t *testing.T) {
 	}))
 	defer server.Close()
 	httpClient := server.Client()
-	client := aznamingtool.NewAPIClient(server.URL, "123456", httpClient)
-	service := aznamingtool.NewBaseService(client)
+	client := NewAPIClient(server.URL, "123456", httpClient)
+	service := NewBaseService(client)
 
 	var actualResponse []models.ResourceType
 	err := service.DoGet("RequestName", nil, &actualResponse)
@@ -46,8 +45,8 @@ func TestDoPost(t *testing.T) {
 	defer server.Close()
 
 	httpClient := server.Client()
-	client := aznamingtool.NewAPIClient(server.URL, "123456", httpClient)
-	service := aznamingtool.NewBaseService(client)
+	client := NewAPIClient(server.URL, "123456", httpClient)
+	service := NewBaseService(client)
 
 	var actualResponse models.ResourceUnit
 	err := service.DoPost("CreateOrUpdateResourceUnit", requestData, &actualResponse)
@@ -68,8 +67,8 @@ func TestDoDelete(t *testing.T) {
 	defer server.Close()
 
 	httpClient := server.Client()
-	client := aznamingtool.NewAPIClient(server.URL, "123456", httpClient)
-	service := aznamingtool.NewBaseService(client)
+	client := NewAPIClient(server.URL, "123456", httpClient)
+	service := NewBaseService(client)
 
 	var actualResponse models.ResourceUnit
 	service.DoDelete("DeleteResourceUnit", map[string]string{"id": "1"}, &actualResponse)
