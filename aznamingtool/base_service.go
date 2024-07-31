@@ -12,6 +12,13 @@ type BaseService struct {
 	client *APIClient
 }
 
+// NewBaseService creates a new instance of BaseService with the provided API client.
+//
+// Parameters:
+//   - client: A pointer to the APIClient instance.
+//
+// Returns:
+//   - A pointer to the newly created BaseService instance.
 func NewBaseService(client *APIClient) *BaseService {
 	return &BaseService{client: client}
 }
@@ -19,12 +26,18 @@ func NewBaseService(client *APIClient) *BaseService {
 // DoGet performs a GET request to the specified endpoint with URL interpolation
 // and decodes the response into the provided response object.
 //
-// endpointKey: The key to the API endpoint in the client's endpoint map.
-// uriData: A map containing data to be interpolated into the endpoint URL.
-// response: A pointer to a variable where the response should be decoded.
+// Parameters:
+//   - endpointKey: The key to the API endpoint in the client's endpoint map.
+//   - uriData: A map containing data to be interpolated into the endpoint URL.
+//   - response: A pointer to a variable where the response should be decoded.
 //
-// Returns an error if the endpoint is not found, the request fails, or the response
-// decoding fails.
+// Returns:
+//   - error: An error if any of the following occurs:
+//   - The endpoint is not found in the client's endpoint map.
+//   - The request creation fails.
+//   - The request execution fails.
+//   - The response body decoding fails.
+//   - The response status code is 400 or greater.
 func (s *BaseService) DoGet(endpointKey string, uriData map[string]string, response interface{}) error {
 	endpoint, exists := s.client.ApiEndpoints[endpointKey]
 	if !exists {
@@ -69,12 +82,11 @@ func (s *BaseService) DoGet(endpointKey string, uriData map[string]string, respo
 //
 // Returns:
 //   - error: An error if any of the following occurs:
-//     - The endpoint is not found in the client's endpoint map.
-//     - The request creation fails.
-//     - The request execution fails.
-//     - The response body decoding fails.
-//     - The response status code is 400 or greater.
-
+//   - The endpoint is not found in the client's endpoint map.
+//   - The request creation fails.
+//   - The request execution fails.
+//   - The response body decoding fails.
+//   - The response status code is 400 or greater.
 func (s *BaseService) DoPost(endpointKey string, requestData interface{}, response interface{}) error {
 	endpoint, exists := s.client.ApiEndpoints[endpointKey]
 	if !exists {
@@ -118,6 +130,22 @@ func (s *BaseService) DoPost(endpointKey string, requestData interface{}, respon
 	return nil
 }
 
+// DoDelete performs a DELETE request to the specified endpoint with URL interpolation
+// and decodes the response into the provided response object.
+//
+// Parameters:
+//   - endpointKey: The key to the API endpoint in the client's endpoint map.
+//   - uriData: A map containing data to be interpolated into the endpoint URL.
+//   - response: A pointer to a variable where the response should be decoded.
+//
+// Returns:
+//   - interface{}: The decoded response object.
+//   - error: An error if any of the following occurs:
+//   - The endpoint is not found in the client's endpoint map.
+//   - The request creation fails.
+//   - The request execution fails.
+//   - The response body decoding fails.
+//   - The response status code is 400 or greater.
 func (s *BaseService) DoDelete(endpointKey string, uriData map[string]string, response interface{}) (interface{}, error) {
 	endpoint, exists := s.client.ApiEndpoints[endpointKey]
 	if !exists {

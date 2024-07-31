@@ -21,7 +21,7 @@ type APIClient struct {
 //
 // Returns:
 //   - A pointer to the newly created APIClient instance.
-func NewAPIClient(baseURL string, apiKey string) *APIClient {
+func NewAPIClient(baseURL string, apiKey string, HttpClient *http.Client) *APIClient {
 	if baseURL == "" {
 		panic("baseURL cannot be empty")
 	}
@@ -29,16 +29,24 @@ func NewAPIClient(baseURL string, apiKey string) *APIClient {
 		panic("apiKey cannot be empty")
 	}
 
+	httpClientInstance := HttpClient
+
+	if HttpClient == nil {
+		httpClientInstance = &http.Client{}
+	}
+
 	return &APIClient{
 		BaseURL: baseURL,
 		APIKey:  apiKey,
 		ApiEndpoints: map[string]string{
-			"RequestName":               baseURL + "/api/ResourceNamingRequests/RequestName",
-			"RequestNameWithComponents": baseURL + "/api/ResourceNamingRequests/RequestNameWithComponents",
-			"ValidateName":              baseURL + "/api/ResourceNamingRequests/ValidateName",
-			"GetGeneratedName":          baseURL + "/api/Admin/GetGeneratedName/{id}",
+			"RequestName":                baseURL + "/api/ResourceNamingRequests/RequestName",
+			"RequestNameWithComponents":  baseURL + "/api/ResourceNamingRequests/RequestNameWithComponents",
+			"ValidateName":               baseURL + "/api/ResourceNamingRequests/ValidateName",
+			"GetGeneratedName":           baseURL + "/api/Admin/GetGeneratedName/{id}",
+			"CreateOrUpdateResourceUnit": baseURL + "/api/ResourceUnitDepts",
+			"DeleteResourceUnit":         baseURL + "/api/ResourceUnitDepts/{id}",
 		},
-		HttpClient: &http.Client{},
+		HttpClient: httpClientInstance,
 	}
 }
 

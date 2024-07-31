@@ -15,14 +15,14 @@ type CustomComponentService struct {
 //
 // Returns:
 //   - A pointer to the newly created CustomComponentService instance.
-func NewCustomComponentsService(client *APIClient) *CustomComponentService {
+func NewCustomComponentService(client *APIClient) *CustomComponentService {
 	return &CustomComponentService{baseService: NewBaseService(client)}
 }
 
-// GetAllCustomComponents requests all custom components.
+// GetAllCustomComponents retrieves all custom components.
 //
 // Returns:
-//   - A pointer to models.ResourceNameResponse containing the response data.
+//   - A pointer to a slice of models.CustomComponent containing the response data.
 //   - An error if the request fails or the response indicates failure.
 func (s *CustomComponentService) GetAllCustomComponents() (*[]models.CustomComponent, error) {
 	var response []models.CustomComponent
@@ -34,13 +34,13 @@ func (s *CustomComponentService) GetAllCustomComponents() (*[]models.CustomCompo
 	return &response, nil
 }
 
-// RequestName requests a new resource name based on the provided request data.
+// GetCustomComponent retrieves a custom component based on the provided ID.
 //
 // Parameters:
-//   - request: An instance of models.ResourceNameRequest containing the request data.
+//   - id: A string representing the ID of the custom component.
 //
 // Returns:
-//   - A pointer to models.ResourceNameResponse containing the response data.
+//   - A pointer to models.CustomComponent containing the response data.
 //   - An error if the request fails or the response indicates failure.
 func (s *CustomComponentService) GetCustomComponent(id string) (*models.CustomComponent, error) {
 	var response models.CustomComponent
@@ -52,13 +52,13 @@ func (s *CustomComponentService) GetCustomComponent(id string) (*models.CustomCo
 	return &response, nil
 }
 
-// RequestName requests a new resource name based on the provided request data.
+// GetCustomComponentByParentId retrieves a custom component based on the provided parent component ID.
 //
 // Parameters:
-//   - request: An instance of models.ResourceNameRequest containing the request data.
+//   - parentComponentId: A string representing the ID of the parent custom component.
 //
 // Returns:
-//   - A pointer to models.ResourceNameResponse containing the response data.
+//   - A pointer to models.CustomComponent containing the response data.
 //   - An error if the request fails or the response indicates failure.
 func (s *CustomComponentService) GetCustomComponentByParentId(parentComponentId string) (*models.CustomComponent, error) {
 	var response models.CustomComponent
@@ -70,17 +70,17 @@ func (s *CustomComponentService) GetCustomComponentByParentId(parentComponentId 
 	return &response, nil
 }
 
-// RequestName requests a new resource name based on the provided request data.
+// GetCustomComponentByParentType retrieves custom components based on the provided parent type.
 //
 // Parameters:
-//   - request: An instance of models.ResourceNameRequest containing the request data.
+//   - parentType: A string representing the type of the parent custom component.
 //
 // Returns:
-//   - A pointer to models.ResourceNameResponse containing the response data.
+//   - A pointer to a slice of models.CustomComponent containing the response data.
 //   - An error if the request fails or the response indicates failure.
-func (s *CustomComponentService) GetCustomComponentByParentType(parenttype string) (*models.CustomComponent, error) {
-	var response models.CustomComponent
-	err := s.baseService.DoGet("GetCustomComponentByParentType", map[string]string{"parenttype": parenttype}, &response)
+func (s *CustomComponentService) GetCustomComponentByParentType(parentType string) (*[]models.CustomComponent, error) {
+	var response []models.CustomComponent
+	err := s.baseService.DoGet("GetCustomComponentByParentType", map[string]string{"parentType": parentType}, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -88,17 +88,17 @@ func (s *CustomComponentService) GetCustomComponentByParentType(parenttype strin
 	return &response, nil
 }
 
-// RequestName requests a new resource name based on the provided request data.
+// CreateOrUpdateCustomComponent creates or updates a custom component based on the provided request data.
 //
 // Parameters:
-//   - request: An instance of models.ResourceNameRequest containing the request data.
+//   - request: An instance of models.CustomComponent containing the request data.
 //
 // Returns:
-//   - A pointer to models.ResourceNameResponse containing the response data.
+//   - A pointer to models.CustomComponent containing the response data.
 //   - An error if the request fails or the response indicates failure.
 func (s *CustomComponentService) CreateOrUpdateCustomComponent(request models.CustomComponent) (*models.CustomComponent, error) {
 	var response models.CustomComponent
-	err := s.baseService.DoPost("CreateOrUpdateResourceComponent", request, &response)
+	err := s.baseService.DoPost("CreateOrUpdateCustomComponent", request, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -106,28 +106,28 @@ func (s *CustomComponentService) CreateOrUpdateCustomComponent(request models.Cu
 	return &response, nil
 }
 
-// RequestName requests a new resource name based on the provided request data.
+// DeleteCustomComponent deletes a custom component based on the provided ID.
 //
 // Parameters:
-//   - request: An instance of models.ResourceNameRequest containing the request data.
+//   - id: A string representing the ID of the custom component.
 //
 // Returns:
-//   - A pointer to models.ResourceNameResponse containing the response data.
+//   - An interface containing the response data.
 //   - An error if the request fails or the response indicates failure.
 func (s *CustomComponentService) DeleteCustomComponent(id string) (interface{}, error) {
 	var response models.ResourceOrganization
 	return s.baseService.DoDelete("DeleteCustomComponent", map[string]string{"id": id}, &response)
 }
 
-// RequestName requests a new resource name based on the provided request data.
+// DeleteCustomComponentByParentId deletes custom components based on the provided parent component ID.
 //
 // Parameters:
-//   - request: An instance of models.ResourceNameRequest containing the request data.
+//   - parentComponentId: A string representing the ID of the parent custom component.
 //
 // Returns:
-//   - A pointer to models.ResourceNameResponse containing the response data.
+//   - An interface containing the response data.
 //   - An error if the request fails or the response indicates failure.
-func (s *CustomComponentService) DeleteCustomComponentByParentId(parentcomponentid string) (interface{}, error) {
+func (s *CustomComponentService) DeleteCustomComponentByParentId(parentComponentId string) (interface{}, error) {
 	var response models.ResourceOrganization
-	return s.baseService.DoDelete("DeleteCustomComponentByParentId", map[string]string{"parentcomponentid": parentcomponentid}, &response)
+	return s.baseService.DoDelete("DeleteCustomComponentByParentId", map[string]string{"parentComponentId": parentComponentId}, &response)
 }

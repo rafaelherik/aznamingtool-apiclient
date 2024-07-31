@@ -28,3 +28,21 @@ jobs:
 
     - name: Build
       run: go build -v ./...
+
+    - name: Test
+      run: go test  ./aznamingtool/tests -coverprofile=coverage.out
+    
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v2
+      with:
+        name: coverage-report
+        path: coverage.out
+
+    - name: Generate HTML coverage report
+      run: go tool cover -html=coverage.out -o coverage.html
+
+    - name: Upload HTML coverage report
+      uses: actions/upload-artifact@v2
+      with:
+        name: html-coverage-report
+        path: coverage.html
