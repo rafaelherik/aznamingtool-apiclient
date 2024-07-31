@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 )
 
 type BaseService struct {
@@ -14,6 +15,65 @@ type BaseService struct {
 func NewBaseService(client *APIClient) *BaseService {
 	return &BaseService{client: client}
 }
+
+// DoGet performs a GET request to the specified endpoint with URL interpolation
+// and decodes the response into the provided response object.
+//
+// endpointKey: The key to the API endpoint in the client's endpoint map.
+// uriData: A map containing data to be interpolated into the endpoint URL.
+// response: A pointer to a variable where the response should be decoded.
+//
+// Returns an error if the endpoint is not found, the request fails, or the response
+// decoding fails.
+func (s *BaseService) DoGet(endpointKey string, uriData map[string]string, response interface{}) error {
+	endpoint, exists := s.client.ApiEndpoints[endpointKey]
+	if !exists {
+		return fmt.Errorf("endpoint not found for %s", endpointKey)
+	}
+
+	// Perform string interpolation with uriData
+	for key, value := range uriData {
+		placeholder := fmt.Sprintf("{%s}", key)
+		endpoint = strings.Replace(endpoint, placeholder, value, -1)
+	}
+
+	req, err := http.NewRequest("GET", endpoint, nil)
+	if err != nil {
+		return err
+	}
+
+	resp, err := s.client.DoRequest(req)
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+
+	if err := json.NewDecoder(resp.Body).Decode(response); err != nil {
+		return err
+	}
+
+	if resp.StatusCode >= 400 {
+		return fmt.Errorf("received error status code: %d", resp.StatusCode)
+	}
+
+	return nil
+}
+
+// DoPost performs a POST request to the specified endpoint with a JSON-encoded body
+// and decodes the response into the provided response object.
+//
+// Parameters:
+//   - endpointKey: A string representing the key to the API endpoint in the client's endpoint map.
+//   - requestData: An object that will be serialized into a JSON object to be included in the POST request body.
+//   - response: A pointer to a variable where the decoded response should be stored.
+//
+// Returns:
+//   - error: An error if any of the following occurs:
+//     - The endpoint is not found in the client's endpoint map.
+//     - The request creation fails.
+//     - The request execution fails.
+//     - The response body decoding fails.
+//     - The response status code is 400 or greater.
 
 func (s *BaseService) DoPost(endpointKey string, requestData interface{}, response interface{}) error {
 	endpoint, exists := s.client.ApiEndpoints[endpointKey]
@@ -56,4 +116,38 @@ func (s *BaseService) DoPost(endpointKey string, requestData interface{}, respon
 	}
 
 	return nil
+}
+
+func (s *BaseService) DoDelete(endpointKey string, uriData map[string]string, response interface{}) (interface{}, error) {
+	endpoint, exists := s.client.ApiEndpoints[endpointKey]
+	if !exists {
+		return nil, fmt.Errorf("endpoint not found for %s", endpointKey)
+	}
+
+	// Perform string interpolation with uriData
+	for key, value := range uriData {
+		placeholder := fmt.Sprintf("{%s}", key)
+		endpoint = strings.Replace(endpoint, placeholder, value, -1)
+	}
+
+	req, err := http.NewRequest("DELETE", endpoint, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := s.client.DoRequest(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	if err := json.NewDecoder(resp.Body).Decode(response); err != nil {
+		return nil, err
+	}
+
+	if resp.StatusCode >= 400 {
+		return response, fmt.Errorf("received error status code: %d", resp.StatusCode)
+	}
+
+	return response, nil
 }

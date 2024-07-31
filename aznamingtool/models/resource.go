@@ -23,11 +23,11 @@ type ResourceFunction struct {
 	ResourceBaseEntity
 }
 
-type ResourceOrg struct {
+type ResourceOrganization struct {
 	ResourceBaseEntity
 }
 
-type ResourceProjAppSvc struct {
+type ResourceProject struct {
 	ResourceBaseEntity
 }
 
@@ -35,7 +35,7 @@ type ResourceLocation struct {
 	ResourceBaseEntity
 }
 
-type ResourceUnitDept struct {
+type ResourceUnit struct {
 	ResourceBaseEntity
 }
 
@@ -70,7 +70,7 @@ type ResourceNameRequest struct {
 	ResourceProjAppSvc  string
 	ResourceType        string
 	ResourceUnitDept    string
-	CustomComponents    map[string]string
+	CustomComponents    []CustomComponent
 	ResourceId          int
 	CreatedBy           string
 }
@@ -81,13 +81,13 @@ type ResourceNameRequestWithComponents struct {
 	ResourceDelimiter   ResourceDelimiter
 	ResourceInstance    string
 	ResourceLocation    ResourceLocation
-	ResourceOrg         ResourceOrg
-	ResourceProjAppSvc  ResourceProjAppSvc
+	ResourceOrg         ResourceOrganization
+	ResourceProjAppSvc  ResourceProject
 	ResourceType        ResourceType
-	ResourceUnitDept    ResourceUnitDept
+	ResourceUnitDept    ResourceUnit
 }
 
-type ResourceNameDetails struct {
+type ResourceGeneratedName struct {
 	Id               int
 	CreatedOn        string
 	ResourceName     string
@@ -100,5 +100,21 @@ type ResourceNameResponse struct {
 	ResourceName        string
 	Message             string
 	Success             bool
-	ResourceNameDetails ResourceNameDetails
+	ResourceNameDetails ResourceGeneratedName
+}
+
+type ResourceComponent struct {
+	Id                   int64
+	Name                 string
+	DisplayName          string
+	Enabled              bool
+	SortOrder            int
+	IsCustom             bool
+	IsFreeText           bool
+	MinLength            string
+	MaxLength            string
+	EnforceRandom        bool
+	Alphanumeric         bool
+	ApplyDelimiterBefore bool
+	ApplyDelimiterAfter  bool
 }
